@@ -39,37 +39,35 @@ pip install -e .
 ### 核心功能
 
 ```python
-from newsatlas import NewsHarvester
+from newsatlas import NewsAtlas
 
-harvester = NewsHarvester()
+atlas = NewsAtlas()
 
 # 功能1: 采集并解析新闻列表页
-result = harvester.fetch_list("https://news.example.com")
+result = atlas.fetch_list("https://news.example.com")
 for item in result.items:
-    print(f"{item.title} - {item.url}")
+    print(item.title, item.url)
 
-# 功能2: 解析列表页 HTML
-items = harvester.parse_list(html_content, base_url="https://...")
+# 功能2: 直接解析列表页 HTML
+items = atlas.parse_list(html_content, base_url="...")
 
 # 功能3: 采集并解析新闻详情页
-article = harvester.fetch_article("https://news.example.com/article/123")
+article = atlas.fetch_article("https://news.example.com/article/123")
 print(article.title, article.content)
 
-# 功能4: 解析详情页 HTML
-article = harvester.parse_article(html_content)
+# 功能4: 直接解析详情页 HTML
+article = atlas.parse_article(html_content)
 
-# 功能5: 完整采集流程（列表页 + 详情页）
-result = harvester.harvest("https://news.example.com")
-for article in result.articles:
-    print(f"{article.title}: {len(article.content)} chars")
-
-harvester.close()
+# 功能5: 完整采集流程（列表+详情）
+result = atlas.collect("https://news.example.com")
+print(f"成功采集 {len(result.articles)} 篇文章")
 ```
+atlas.close()
 
 ### 便捷函数
 
 ```python
-from newsatlas import fetch_news_list, fetch_article_content, harvest_news
+from newsatlas import fetch_news_list, fetch_article_content, collect_news
 
 # 采集新闻列表
 items = fetch_news_list("https://news.example.com")
@@ -78,20 +76,20 @@ items = fetch_news_list("https://news.example.com")
 article = fetch_article_content("https://news.example.com/article/123")
 
 # 完整采集
-result = harvest_news("https://news.example.com", max_articles=20)
+result = collect_news("https://news.example.com", max_articles=20)
 ```
 
 ## 📖 API 文档
 
-### NewsHarvester
+### NewsAtlas
 
 主入口类，提供所有核心功能。
 
 ```python
-from newsatlas import NewsHarvester, HarvesterConfig
+from newsatlas import NewsAtlas, AtlasConfig
 
 # 自定义配置
-config = HarvesterConfig(
+config = AtlasConfig(
     timeout=15,                    # 请求超时时间
     retry_times=2,                 # 重试次数
     request_delay=(1.0, 2.0),      # 请求间隔范围
@@ -99,43 +97,54 @@ config = HarvesterConfig(
     max_articles_per_list=50,      # 每个列表页最多采集文章数
 )
 
-harvester = NewsHarvester(config)
+atlas = NewsAtlas(config)
 ```
 
 ### 数据模型
 
 #### NewsItem
 
-新闻列表项：
+新闻列表项。
 
-```python
-@dataclass
-class NewsItem:
-    title: str           # 新闻标题
-    url: str             # 新闻链接
-    publish_time: str    # 发布时间（可选）
-    timestamp: int       # 时间戳（可选）
-```
+- `title`: 标题
+- `url`: 链接
+- `publish_time`: 发布时间（格式化字符串）
+- `timestamp`: 时间戳
 
 #### ArticleContent
 
-文章详情：
+新闻详情内容。
+
+- `title`: 标题
+- `content`: 正文内容
+- `author`: 作者
+- `publish_time`: 发布时间
+- `raw_html`: 原始 HTML（可选）
+- `success`: 是否成功
+- `error`: 错误信息
+
+#### AtlasResult
+
+完整采集结果。
+
+- `list_items`: 新闻列表 (`List[NewsItem]`)
+- `articles`: 详情页内容列表 (`List[ArticleContent]`)
+- `success_count`: 成功数量
+- `failed_count`: 失败数量
+
+## 🛠️ 便捷函数
 
 ```python
-@dataclass
-class ArticleContent:
-    url: str              # 文章链接
-    title: str            # 文章标题
-    content: str          # 正文内容
-    author: str           # 作者
-    publish_time: str     # 发布时间
-    source: str           # 来源
-    description: str      # 摘要
-    categories: List[str] # 分类
-    tags: List[str]       # 标签
-    language: str         # 语言
-    success: bool         # 是否成功
-    error: str            # 错误信息
+from newsatlas import fetch_news_list, fetch_article_content, collect_news
+
+# 1. 仅获取列表
+result = fetch_news_list("https://news.example.com")
+
+# 2. 仅获取文章内容
+article = fetch_article_content("https://news.example.com/article/123")
+
+# 3. 完整采集
+result = collect_news("https://news.example.com", max_articles=20)
 ```
 
 ### 回调函数
@@ -149,7 +158,7 @@ def on_article_fetched(article: ArticleContent):
     """文章采集完成回调"""
     print(f"Fetched: {article.title}")
 
-config = HarvesterConfig(
+config = AtlasConfig(
     on_progress=on_progress,
     on_article_fetched=on_article_fetched,
 )
@@ -212,7 +221,7 @@ newsatlas/
 ├── src/
 │   └── newsatlas/
 │       ├── __init__.py     # 公开 API
-│       ├── harvester.py    # 主入口类
+│       ├── core.py         # 主入口类
 │       ├── models.py       # 数据模型
 │       ├── crawler.py      # 网页爬虫
 │       ├── detail_parser.py # 详情页解析

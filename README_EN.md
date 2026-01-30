@@ -38,37 +38,36 @@ pip install -e .
 ### Core Functions
 
 ```python
-from newsatlas import NewsHarvester
+from newsatlas import NewsAtlas
 
-harvester = NewsHarvester()
+atlas = NewsAtlas()
 
 # Feature 1: Fetch and parse news list page
-result = harvester.fetch_list("https://news.example.com")
+result = atlas.fetch_list("https://news.example.com")
 for item in result.items:
-    print(f"{item.title} - {item.url}")
+    print(item.title, item.url)
 
-# Feature 2: Parse list page HTML
-items = harvester.parse_list(html_content, base_url="https://...")
+# Feature 2: Parse list page HTML directly
+items = atlas.parse_list(html_content, base_url="...")
 
-# Feature 3: Fetch and parse news detail page
-article = harvester.fetch_article("https://news.example.com/article/123")
+# Feature 3: Fetch and parse detail page
+article = atlas.fetch_article("https://news.example.com/article/123")
 print(article.title, article.content)
 
-# Feature 4: Parse detail page HTML
-article = harvester.parse_article(html_content)
+# Feature 4: Parse detail page HTML directly
+article = atlas.parse_article(html_content)
 
-# Feature 5: Complete harvesting flow (List + Details)
-result = harvester.harvest("https://news.example.com")
-for article in result.articles:
-    print(f"{article.title}: {len(article.content)} chars")
-
-harvester.close()
+# Feature 5: Full collection flow (list + details)
+result = atlas.collect("https://news.example.com")
+print(f"Collected {len(result.articles)} articles")
 ```
+
+
 
 ### Convenience Functions
 
 ```python
-from newsatlas import fetch_news_list, fetch_article_content, harvest_news
+from newsatlas import fetch_news_list, fetch_article_content, collect_news
 
 # Fetch news list
 items = fetch_news_list("https://news.example.com")
@@ -77,20 +76,20 @@ items = fetch_news_list("https://news.example.com")
 article = fetch_article_content("https://news.example.com/article/123")
 
 # Complete harvesting
-result = harvest_news("https://news.example.com", max_articles=20)
+result = collect_news("https://news.example.com", max_articles=20)
 ```
 
 ## 📖 API Documentation
 
-### NewsHarvester
+### NewsAtlas
 
 The main entry class providing all core functions.
 
 ```python
-from newsatlas import NewsHarvester, HarvesterConfig
+from newsatlas import NewsAtlas, AtlasConfig
 
 # Custom configuration
-config = HarvesterConfig(
+config = AtlasConfig(
     timeout=15,                    # Request timeout
     retry_times=2,                 # Retry times
     request_delay=(1.0, 2.0),      # Request delay range
@@ -98,43 +97,54 @@ config = HarvesterConfig(
     max_articles_per_list=50,      # Max articles per list page
 )
 
-harvester = NewsHarvester(config)
+atlas = NewsAtlas(config)
 ```
 
 ### Data Models
 
 #### NewsItem
 
-News list item:
+News list item.
 
-```python
-@dataclass
-class NewsItem:
-    title: str           # News title
-    url: str             # News link
-    publish_time: str    # Publish time (optional)
-    timestamp: int       # Timestamp (optional)
-```
+- `title`: Title
+- `url`: Link
+- `publish_time`: Publish time (formatted string)
+- `timestamp`: Timestamp
 
 #### ArticleContent
 
-Article details:
+Detail page content.
+
+- `title`: Title
+- `content`: Body content
+- `author`: Author
+- `publish_time`: Publish time
+- `raw_html`: Raw HTML (optional)
+- `success`: Success status
+- `error`: Error message
+
+#### AtlasResult
+
+Full collection result.
+
+- `list_items`: News list (`List[NewsItem]`)
+- `articles`: Detail page content list (`List[ArticleContent]`)
+- `success_count`: Success count
+- `failed_count`: Failed count
+
+## 🛠️ Convenience Functions
 
 ```python
-@dataclass
-class ArticleContent:
-    url: str              # Article link
-    title: str            # Article title
-    content: str          # Body content
-    author: str           # Author
-    publish_time: str     # Publish time
-    source: str           # Source
-    description: str      # Description
-    categories: List[str] # Categories
-    tags: List[str]       # Tags
-    language: str         # Language
-    success: bool         # Success status
-    error: str            # Error message
+from newsatlas import fetch_news_list, fetch_article_content, collect_news
+
+# 1. Fetch list only
+result = fetch_news_list("https://news.example.com")
+
+# 2. Fetch article content only
+article = fetch_article_content("https://news.example.com/article/123")
+
+# 3. Full collection
+result = collect_news("https://news.example.com", max_articles=20)
 ```
 
 ## 🏗️ Project Structure
@@ -148,7 +158,7 @@ newsatlas/
 ├── src/
 │   └── newsatlas/
 │       ├── __init__.py     # Public API
-│       ├── harvester.py    # Main entry class
+│       ├── core.py         # Main entry class
 │       ├── models.py       # Data models
 │       ├── crawler.py      # Web crawler
 │       ├── detail_parser.py # Detail page parser

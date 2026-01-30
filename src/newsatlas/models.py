@@ -91,7 +91,7 @@ class NewsListResult:
 
 
 @dataclass
-class HarvestResult:
+class AtlasResult:
     """采集结果（列表页 + 详情页）"""
     list_url: str
     list_items: List[NewsItem] = field(default_factory=list)
