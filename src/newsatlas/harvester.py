@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-NewsHarvester - 新闻采集主入口
+NewsAtlas - 新闻采集主入口
 
 提供5个核心功能：
 1. 传入列表页URL，采集并返回解析出的结果

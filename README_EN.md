@@ -1,10 +1,10 @@
-# NewsHarvest 📰
+# NewsAtlas 📰
 
 **English** | [简体中文](README.md)
 
 **Focusing on solving the pain point of news list page parsing.**
 
-While there are many mature tools for parsing news **detail pages** in the market, automated parsing of **list page** data has always been a gap and a challenge in the industry. **NewsHarvest was born to solve this pain point**—it can intelligently identify and extract news list data of various forms, filling the last piece of the puzzle in the general crawler field.
+While there are many mature tools for parsing news **detail pages** in the market, automated parsing of **list page** data has always been a gap and a challenge in the industry. **NewsAtlas was born to solve this pain point**—it can intelligently identify and extract news list data of various forms, filling the last piece of the puzzle in the general crawler field.
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
@@ -22,7 +22,7 @@ While there are many mature tools for parsing news **detail pages** in the marke
 Install using uv (Recommended):
 
 ```bash
-cd newsharvest
+cd newsatlas
 uv venv
 uv pip install -e .
 ```
@@ -38,7 +38,7 @@ pip install -e .
 ### Core Functions
 
 ```python
-from newsharvest import NewsHarvester
+from newsatlas import NewsHarvester
 
 harvester = NewsHarvester()
 
@@ -68,7 +68,7 @@ harvester.close()
 ### Convenience Functions
 
 ```python
-from newsharvest import fetch_news_list, fetch_article_content, harvest_news
+from newsatlas import fetch_news_list, fetch_article_content, harvest_news
 
 # Fetch news list
 items = fetch_news_list("https://news.example.com")
@@ -87,7 +87,7 @@ result = harvest_news("https://news.example.com", max_articles=20)
 The main entry class providing all core functions.
 
 ```python
-from newsharvest import NewsHarvester, HarvesterConfig
+from newsatlas import NewsHarvester, HarvesterConfig
 
 # Custom configuration
 config = HarvesterConfig(
@@ -140,13 +140,13 @@ class ArticleContent:
 ## 🏗️ Project Structure
 
 ```
-newsharvest/
+newsatlas/
 ├── pyproject.toml          # Project configuration
 ├── README.md               # Documentation (Chinese)
 ├── README_EN.md            # Documentation (English)
 ├── LICENSE                 # License
 ├── src/
-│   └── newsharvest/
+│   └── newsatlas/
 │       ├── __init__.py     # Public API
 │       ├── harvester.py    # Main entry class
 │       ├── models.py       # Data models
@@ -164,7 +164,7 @@ newsharvest/
 
 ### List Page Parsing Principles
 
-NewsHarvest employs a Hybrid Strategy Algorithm, combining rule matching, heuristic evaluation, and machine learning ideas to ensure high recognition rates across different types of web pages. The core logic includes the following 6 layers:
+NewsAtlas employs a Hybrid Strategy Algorithm, combining rule matching, heuristic evaluation, and machine learning ideas to ensure high recognition rates across different types of web pages. The core logic includes the following 6 layers:
 
 1.  **Multi-dimensional Scoring**
     The system scores each potential container (`<div>`, `<ul>`, etc.) on the page. Scoring dimensions include:
@@ -201,6 +201,7 @@ Based on the [trafilatura](https://github.com/adbar/trafilatura) library, using 
 - Text density analysis
 - Boilerplate text filtering
 - Metadata extraction
+- Metadata extraction
 
 ## 📢 Test Sources & Feedback
 
@@ -214,7 +215,7 @@ Due to the ever-changing structure of web pages, parsing failures (especially fo
 This project references and draws inspiration from the design ideas of the following excellent open-source projects, paying tribute to:
 
 *   [readability](https://github.com/mozilla/readability) - Mozilla's library for extracting article body, the forefather of content extraction.
-*   [trafilatura](https://github.com/adbar/trafilatura) - Currently the most advanced/powerful content extraction library in Python, NewsHarvest relies on it for detail page parsing.
+*   [trafilatura](https://github.com/adbar/trafilatura) - Currently the most advanced/powerful content extraction library in Python, NewsAtlas relies on it for detail page parsing.
 *   [GeneralNewsExtractor](https://github.com/GeneralNewsExtractor/GeneralNewsExtractor) - An excellent general news extractor.
 *   [GerapyAutoExtractor](https://github.com/Gerapy/GerapyAutoExtractor) - An excellent project for automatic list page extraction.
 *   [newspaper4k](https://github.com/AndyTheFactory/newspaper4k) - A modern branch of the classic Python article extraction library.

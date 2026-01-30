@@ -1,5 +1,5 @@
 [project]
-name = "newsharvest"
+name = "newsatlas"
 version = "0.1.0"
 description = "A smart news list and article content extraction library"
 readme = "README.md"
@@ -49,17 +49,17 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/newsharvest"
-Documentation = "https://github.com/yourusername/newsharvest#readme"
-Repository = "https://github.com/yourusername/newsharvest"
-Issues = "https://github.com/yourusername/newsharvest/issues"
+Homepage = "https://github.com/vibex-m/NewsAtlas"
+Documentation = "https://github.com/vibex-m/NewsAtlas#readme"
+Repository = "https://github.com/vibex-m/NewsAtlas"
+Issues = "https://github.com/vibex-m/NewsAtlas/issues"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/newsharvest"]
+packages = ["src/newsatlas"]
 
 [tool.ruff]
 line-length = 100

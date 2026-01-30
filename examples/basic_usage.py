@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-NewsHarvest 基础使用示例
+NewsAtlas 基础使用示例
 
 展示5个核心功能的使用方法
 """
 import json
-from newsharvest import (
+from newsatlas import (
     NewsHarvester,
     HarvesterConfig,
     fetch_news_list,
@@ -26,8 +26,6 @@ def example_1_fetch_list():
     
     # 采集并解析列表页
     result = harvester.fetch_list("https://news.163.com/")
-    with open("E:/mine/program/newsharvest/tests/test.txt", "w", encoding="utf-8") as f:
-        json.dump(result.as_dict(), f, ensure_ascii=False, indent=4)
     if result.success:
         print(f"成功提取 {result.total_count} 条新闻:")
         for i, item in enumerate(result.items, 1):
@@ -232,10 +230,10 @@ def example_convenience_functions():
 if __name__ == "__main__":
     # 运行示例（取消注释来运行）
     
-    # example_1_fetch_list()
-    # example_2_parse_list_html()
+    example_1_fetch_list()
+    example_2_parse_list_html()
     example_3_fetch_article()
-    # example_4_parse_article_html()
-    # example_5_harvest()
-    # example_convenience_functions()
+    example_4_parse_article_html()
+    example_5_harvest()
+    example_convenience_functions()
 

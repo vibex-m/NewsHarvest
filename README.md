@@ -1,10 +1,10 @@
-# NewsHarvest 📰
+# NewsAtlas 📰
 
 [English](README_EN.md) | **简体中文**
 
 **专注解决新闻列表页解析痛点**。
 
-虽然目前市面上已有大量成熟的新闻**详情页**解析工具，但**列表页**数据的自动化解析一直是业界的空白和难题。**NewsHarvest 正是为了解决这一痛点而生**——它能智能识别并提取各种形态的新闻列表数据，填补了通用爬虫领域的最后一块拼图。
+虽然目前市面上已有大量成熟的新闻**详情页**解析工具，但**列表页**数据的自动化解析一直是业界的空白和难题。**NewsAtlas 正是为了解决这一痛点而生**——它能智能识别并提取各种形态的新闻列表数据，填补了通用爬虫领域的最后一块拼图。
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
@@ -23,7 +23,7 @@
 使用 uv 安装（推荐）：
 
 ```bash
-cd newsharvest
+cd newsatlas
 uv venv
 uv pip install -e .
 ```
@@ -39,7 +39,7 @@ pip install -e .
 ### 核心功能
 
 ```python
-from newsharvest import NewsHarvester
+from newsatlas import NewsHarvester
 
 harvester = NewsHarvester()
 
@@ -69,7 +69,7 @@ harvester.close()
 ### 便捷函数
 
 ```python
-from newsharvest import fetch_news_list, fetch_article_content, harvest_news
+from newsatlas import fetch_news_list, fetch_article_content, harvest_news
 
 # 采集新闻列表
 items = fetch_news_list("https://news.example.com")
@@ -88,7 +88,7 @@ result = harvest_news("https://news.example.com", max_articles=20)
 主入口类，提供所有核心功能。
 
 ```python
-from newsharvest import NewsHarvester, HarvesterConfig
+from newsatlas import NewsHarvester, HarvesterConfig
 
 # 自定义配置
 config = HarvesterConfig(
@@ -160,7 +160,7 @@ config = HarvesterConfig(
 ### 单独使用列表页解析器
 
 ```python
-from newsharvest import NewsListExtractor, ListExtractorConfig
+from newsatlas import NewsListExtractor, ListExtractorConfig
 
 config = ListExtractorConfig(
     min_title_length=8,
@@ -176,7 +176,7 @@ items = extractor.extract(html, base_url="https://...")
 ### 单独使用详情页解析器
 
 ```python
-from newsharvest import parse_article
+from newsatlas import parse_article
 
 article = parse_article(
     html,
@@ -189,7 +189,7 @@ article = parse_article(
 ### 自定义爬虫配置
 
 ```python
-from newsharvest import WebCrawler, CrawlerConfig
+from newsatlas import WebCrawler, CrawlerConfig
 
 config = CrawlerConfig(
     timeout=20,
@@ -205,12 +205,12 @@ html, error = crawler.fetch("https://...")
 ## 🏗️ 项目结构
 
 ```
-newsharvest/
+newsatlas/
 ├── pyproject.toml          # 项目配置
 ├── README.md               # 文档
 ├── LICENSE                 # 许可证
 ├── src/
-│   └── newsharvest/
+│   └── newsatlas/
 │       ├── __init__.py     # 公开 API
 │       ├── harvester.py    # 主入口类
 │       ├── models.py       # 数据模型
@@ -228,7 +228,7 @@ newsharvest/
 
 ### 列表页解析原理
 
-NewsHarvest 采用了一套混合策略算法（Hybrid Strategy Algorithm），结合了规则匹配、启发式评估和机器学习思想，确保在不同类型的网页上都能获得极高的识别率。核心逻辑包含以下 6 个层面：
+NewsAtlas 采用了一套混合策略算法（Hybrid Strategy Algorithm），结合了规则匹配、启发式评估和机器学习思想，确保在不同类型的网页上都能获得极高的识别率。核心逻辑包含以下 6 个层面：
 
 1.  **多维评分机制 (Multi-dimensional Scoring)**
     系统会对页面中的每个潜在容器（`<div>`, `<ul>` 等）进行打分。评分维度包括：
@@ -291,7 +291,7 @@ Apache License 2.0 - 详见 [LICENSE](LICENSE) 文件
 本项目参考并借鉴了以下优秀开源项目的设计思想，特此致敬：
 
 *   [readability](https://github.com/mozilla/readability) - Mozilla 的网页正文提取库，正文提取的鼻祖
-*   [trafilatura](https://github.com/adbar/trafilatura) - Python 领域目前最先进/强大的正文提取库，NewsHarvest 的详情页解析依赖于它
+*   [trafilatura](https://github.com/adbar/trafilatura) - Python 领域目前最先进/强大的正文提取库，NewsAtlas 的详情页解析依赖于它
 *   [GeneralNewsExtractor](https://github.com/GeneralNewsExtractor/GeneralNewsExtractor) - 优秀的通用新闻抽取器
 *   [GerapyAutoExtractor](https://github.com/Gerapy/GerapyAutoExtractor) - 优秀的新闻抽取器
 *   [newspaper4k](https://github.com/AndyTheFactory/newspaper4k) - 经典 Python 文章提取库的现代化分支
@@ -303,4 +303,3 @@ Apache License 2.0 - 详见 [LICENSE](LICENSE) 文件
 ## 📮 联系
 
 如有问题或建议，请提交 Issue。
-

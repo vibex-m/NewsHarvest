@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 """
-NewsHarvest - 智能新闻采集与解析库
+NewsAtlas - 智能新闻采集与解析库
 
 一站式解决新闻列表页和详情页的采集与解析问题。
 
@@ -11,7 +10,7 @@ NewsHarvest - 智能新闻采集与解析库
 
 使用示例:
 
-    from newsharvest import NewsHarvester
+    from newsatlas import NewsHarvester
 
     # 创建采集器
     harvester = NewsHarvester()
@@ -39,6 +38,16 @@ NewsHarvest - 智能新闻采集与解析库
     harvester.close()
 """
 
+import logging
+from typing import List, Optional, Union
+
+from .harvester import NewsHarvester, HarvesterConfig
+from .models import NewsItem, ArticleContent
+
+# Configure logging
+logging.getLogger("newsatlas").addHandler(logging.NullHandler())
+
+# Re-export core components for direct access
 from .models import (
     NewsItem,
     ArticleContent,
