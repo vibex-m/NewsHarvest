@@ -38,4 +38,4 @@ venv.bak/
 *.swp
 *.swo
 
-
+.claude/
