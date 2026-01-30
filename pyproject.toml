@@ -1,5 +1,5 @@
 [project]
-name = "newsatlas"
+name = "NewsAtlas"
 version = "0.1.0"
 description = "A smart news list and article content extraction library"
 readme = "README.md"
