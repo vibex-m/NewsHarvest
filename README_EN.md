@@ -22,15 +22,13 @@ While there are many mature tools for parsing news **detail pages** in the marke
 Install using uv (Recommended):
 
 ```bash
-cd newsatlas
-uv venv
-uv pip install -e .
+uv pip install NewsAtlas
 ```
 
 Or using pip:
 
 ```bash
-pip install -e .
+pip install newsatlas
 ```
 
 ## 🚀 Quick Start

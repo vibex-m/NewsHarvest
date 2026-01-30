@@ -23,15 +23,13 @@
 使用 uv 安装（推荐）：
 
 ```bash
-cd newsatlas
-uv venv
-uv pip install -e .
+uv pip install NewsAtlas
 ```
 
 或使用 pip：
 
 ```bash
-pip install -e .
+pip install newsatlas
 ```
 
 ## 🚀 快速开始
